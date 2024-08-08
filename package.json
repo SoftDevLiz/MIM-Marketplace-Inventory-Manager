@@ -1,0 +1,23 @@
+{
+  "name": "mim-marketplace-inventory-manager",
+  "version": "1.0.0",
+  "description": "Stock QTY scanning doohickey for marketplaces. Scan your stock -> MIM will update your local spreadsheet QTY column -> Import your spreadsheet to the marketplace.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager.git"
+  },
+  "author": "Liz Mouton (SoftDevLiz on Github)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager/issues"
+  },
+  "homepage": "https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager#readme",
+  "devDependencies": {
+    "electron": "^31.3.1"
+  }
+}
