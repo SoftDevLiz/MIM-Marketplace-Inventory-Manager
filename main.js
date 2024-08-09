@@ -1,3 +1,5 @@
+// Main.js controls the app window and app window lifecycle
+
 const { app, BrowserWindow } = require('electron')
 const path = require('node:path')
 

@@ -1,3 +1,7 @@
+// Preload.js bridges the gap between the main process and the renderer processes, it also exposes a few Node API's, the DOM, and a few Electron API's
+
+// To add features to your renderer that require privileged access, you can define global objects through the contextBridge API
+
 const { contextBridge } = require('electron')
 
 contextBridge.exposeInMainWorld('versions', {
