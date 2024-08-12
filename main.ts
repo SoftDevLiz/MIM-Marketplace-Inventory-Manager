@@ -3,7 +3,8 @@ import { app, BrowserWindow } from 'electron'
 import * as path from 'node:path'
 
 const createWindow = (): void => {
-    const window: BrowserWindow = new BrowserWindow({
+    let window: BrowserWindow;
+        window = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
