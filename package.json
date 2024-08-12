@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager#readme",
   "devDependencies": {
-    "electron": "^31.3.1"
+    "@types/electron": "^1.4.38",
+    "@types/node": "^22.2.0",
+    "electron": "^31.3.1",
+    "typescript": "^5.5.4"
   }
 }
