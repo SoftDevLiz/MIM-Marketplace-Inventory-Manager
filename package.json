@@ -3,16 +3,16 @@
   "version": "1.0.0",
   "description": "Stock QTY scanning doohickey for marketplaces. Scan your stock -> MIM will update your local spreadsheet QTY column -> Import your spreadsheet to the marketplace.",
   "main": "./dist/main.js",
-"scripts": {
-  "clean": "rimraf dist",
-  "build:ts": "tsc",
-  "build:vite": "vite build",
-  "copyfiles": "copyfiles -u 1 dist/**/* dist/",
-  "build": "npm run clean && npm run build:ts && npm run build:vite && npm run copyfiles",
-  "start": "npm run build && electron .",
-  "dev": "vite",
-  "electron": "electron ."
-},
+  "scripts": {
+    "clean": "rimraf dist",
+    "build:ts": "tsc",
+    "build:vite": "vite build",
+    "copyfiles": "copyfiles -u 1 dist/**/* dist/",
+    "build": "npm run clean && npm run build:ts && npm run build:vite && npm run copyfiles",
+    "start": "npm run build && electron .",
+    "dev": "vite",
+    "electron": "electron ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager.git"
