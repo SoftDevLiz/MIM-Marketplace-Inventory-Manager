@@ -1,5 +1,7 @@
 // renderer.ts is responsible for rendering web content.
 
+console.log("Hi I'm defs connected and running");
+
 const preloadPractice: HTMLElement | null = document.getElementById('preprac')
 
 if (preloadPractice) {
