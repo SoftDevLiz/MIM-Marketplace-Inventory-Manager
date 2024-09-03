@@ -2,13 +2,17 @@
   "name": "mim-marketplace-inventory-manager",
   "version": "1.0.0",
   "description": "Stock QTY scanning doohickey for marketplaces. Scan your stock -> MIM will update your local spreadsheet QTY column -> Import your spreadsheet to the marketplace.",
-  "main": "main.js",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "./dist/main.js",
+"scripts": {
+  "clean": "rimraf dist",
+  "build:ts": "tsc",
+  "build:vite": "vite build",
+  "copyfiles": "copyfiles -u 1 dist/**/* dist/",
+  "build": "npm run clean && npm run build:ts && npm run build:vite && npm run copyfiles",
+  "start": "npm run build && electron .",
+  "dev": "vite",
+  "electron": "electron ."
+},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/SoftDevLiz/MIM-Marketplace-Inventory-Manager.git"
@@ -25,9 +29,12 @@
     "@types/react": "^18.3.4",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "concurrently": "^8.2.2",
+    "copyfiles": "^2.4.1",
     "electron": "^31.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "rimraf": "^6.0.1",
     "typescript": "^5.5.4",
     "vite": "^5.4.2"
   }
