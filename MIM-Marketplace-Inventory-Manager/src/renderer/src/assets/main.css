@@ -143,6 +143,11 @@ code {
   }
 }
 
+.test {
+  font-size: 30px;
+  color: #7c93ee;
+}
+
 @media (max-width: 720px) {
   .text {
     font-size: 20px;
