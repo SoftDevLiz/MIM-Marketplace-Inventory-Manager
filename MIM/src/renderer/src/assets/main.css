@@ -1,11 +1,20 @@
 @import './base.css';
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   overflow: hidden;
-  background-size: cover;
-  user-select: none;
 }
 
+.settings-container {
+  display: flex;
+  flex-direction: row;
+  width: 100vw;
+  height: 30vh;
+  border: 1px solid pink;
+}
+
+.settings-left, .settings-right {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid;
+  box-sizing: border-box;
+}
