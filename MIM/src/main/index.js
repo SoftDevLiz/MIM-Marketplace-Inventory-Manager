@@ -1,7 +1,8 @@
 import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join, path } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-import { xlsx } from 'xlsx'
+const XLSX = require('xlsx')
+const fs = require('fs')
 import icon from '../../resources/icon.png?asset'
 
 function createWindow() {
@@ -65,9 +66,11 @@ app.whenReady().then(() => {
       return null;
     }
 
+    XLSX.set_fs(fs);
+
     const filePath = filePaths[0]
 
-    const workbook = xlsx.readFile(filePath);
+    const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
 
