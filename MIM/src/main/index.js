@@ -1,6 +1,7 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
-import { join } from 'path'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
+import { join, path } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
+import { xlsx } from 'xlsx'
 import icon from '../../resources/icon.png?asset'
 
 function createWindow() {
@@ -26,6 +27,8 @@ function createWindow() {
     return { action: 'deny' }
   })
 
+mainWindow.webContents.openDevTools({ mode: 'right' })
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -49,8 +52,27 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // IPC test
-  ipcMain.on('ping', () => console.log('pong'))
+  // Handles file dialog process
+  ipcMain.handle('dialog:openFile', async () => {
+    const { canceled, filePaths } = await dialog.showOpenDialog({
+      properties: ['openFile'],
+      filters: [
+        { name: 'Excel Files', extensions: ['xls', 'xlsx'] }
+      ]
+    })
+
+    if (canceled || filePaths.length === 0) {
+      return null;
+    }
+
+    const filePath = filePaths[0]
+
+    const workbook = xlsx.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+
+    return filePath
+  })
 
   createWindow()
 
