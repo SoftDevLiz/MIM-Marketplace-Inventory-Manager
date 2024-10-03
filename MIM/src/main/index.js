@@ -1,8 +1,6 @@
-import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
-import { join, path } from 'path'
+import { app, shell, BrowserWindow } from 'electron'
+import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
-const XLSX = require('xlsx')
-const fs = require('fs')
 import icon from '../../resources/icon.png?asset'
 
 function createWindow() {
@@ -51,30 +49,6 @@ app.whenReady().then(() => {
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
-  })
-
-  // Handles file dialog process
-  ipcMain.handle('dialog:openFile', async () => {
-    const { canceled, filePaths } = await dialog.showOpenDialog({
-      properties: ['openFile'],
-      filters: [
-        { name: 'Excel Files', extensions: ['xls', 'xlsx'] }
-      ]
-    })
-
-    if (canceled || filePaths.length === 0) {
-      return null;
-    }
-
-    XLSX.set_fs(fs);
-
-    const filePath = filePaths[0]
-
-    const workbook = XLSX.readFile(filePath);
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-
-    return filePath
   })
 
   createWindow()

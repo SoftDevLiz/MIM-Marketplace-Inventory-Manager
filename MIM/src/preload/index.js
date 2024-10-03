@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
@@ -11,8 +11,6 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-    // Expose a method/function to the renderer process (main world) for file system access
-    contextBridge.exposeInMainWorld('dialog', {openFileDialog: () => ipcRenderer.invoke('dialog:openFile')}) 
   } catch (error) {
     console.error(error)
   }
