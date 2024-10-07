@@ -21,8 +21,16 @@ function StockSheetSelector() {
             // and returns the data as a binary buffer
             const response = await window.fileSystem.readFile(filePath)
 
+            // Parses the response into a workbook object so that
+            // SheetJS can manipulate it. Parameters are there so that
+            // SheetJS knows what type of data it is receiving in order
+            // to parse it.
+            const workbook = XLSX.read(response, { type: 'buffer' })
+
+            console.log(workbook)
+
         } catch (error) {
-          console.error("Error importing file:", error);
+          console.error("Error importing file (renderer):", error);
         }
       };
 
