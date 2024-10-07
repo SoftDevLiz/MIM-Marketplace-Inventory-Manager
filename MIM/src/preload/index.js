@@ -11,7 +11,9 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-    contextBridge.exposeInMainWorld('fileSystem', {openFileDialog: () => ipcRenderer.invoke('dialog:openFile')
+    // The below are the necessary APIs for file importing and reading
+    contextBridge.exposeInMainWorld('fileSystem', {openFileDialog: () => ipcRenderer.invoke('dialog:openFile'), 
+    readFile: (filePath) => ipcRenderer.invoke('file:read', filePath)
     })
   } catch (error) {
     console.error(error)

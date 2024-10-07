@@ -14,19 +14,13 @@ function StockSheetSelector() {
             if (noFileSelected) {
               throw new Error("No file selected");
             }
-      
-            const xlFile = filePaths[0];
-            setFile(xlFile);
-      
-            const workbook = XLSX.read(file);
-            console.log(workbook)
-            const sheetName = workbook.SheetNames[0];
-            console.log(sheetName)
-            const sheet = workbook.Sheets[sheetName]
-            console.log(sheet)
-            const data = XLSX.utils.sheet_to_json(sheet)
-      
-            console.log(data);
+            
+            const filePath = filePaths[0]
+            
+            // Request file reading from main process
+            // and returns the data as a binary buffer
+            const response = await window.fileSystem.readFile(filePath)
+
         } catch (error) {
           console.error("Error importing file:", error);
         }

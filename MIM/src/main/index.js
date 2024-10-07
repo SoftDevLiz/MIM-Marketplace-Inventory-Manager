@@ -3,7 +3,7 @@ import { join } from 'path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 import icon from '../../resources/icon.png?asset';
 
-let mainWindow; // Declare at a higher scope
+let mainWindow;
 
 function createWindow() {
   // Create the browser window.
@@ -41,7 +41,7 @@ function createWindow() {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 
-  // Listen for the file dialog event inside the createWindow function
+  // Listens for the file dialog event
   ipcMain.handle('dialog:openFile', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
       title: 'Select a file',
@@ -57,6 +57,18 @@ function createWindow() {
     return result.filePaths;
   });
 }
+
+// Listens for the readFile event if invoked from renderer
+ipcMain.handle('file:read', async (filePath) => {
+  try {
+    // Read the file as a buffer
+    const fileData = await fs.readFile(filePath);
+    return fileData;
+  } catch (error) {
+    console.error("Error reading file (main):", error);
+    throw error
+  }
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
