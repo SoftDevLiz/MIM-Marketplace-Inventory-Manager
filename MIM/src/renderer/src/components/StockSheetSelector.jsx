@@ -1,22 +1,24 @@
-import { useState } from "react"
+import { useState } from 'react'
+
 
 function StockSheetSelector() {
     const [file, setFile] = useState("")
 
-    const handleBrowse = async () => {
-        const filePath = await window.dialog.openFileDialog()
-
-        if (filePath) {
-            setFile(filePath)
+    const importFile = async () => {
+        try {
+          const filePaths = await window.fileSystem.openFileDialog();
+          console.log(filePaths); 
+        } catch (error) {
+          console.error("Failed to open file dialog:", error);
         }
-    }
+      };
 
     return (
         <>
         <h1>Select stock sheet</h1>
         <button
             type="button"
-            onClick={handleBrowse}
+            onClick={importFile}
         >Browse local files</button>
         <h2>{file}</h2>
         </>
