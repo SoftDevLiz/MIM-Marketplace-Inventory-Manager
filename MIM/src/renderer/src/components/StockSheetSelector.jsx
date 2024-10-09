@@ -8,13 +8,13 @@ function StockSheetSelector() {
     const importFile = async () => {
         try {
             const filePaths = await window.fileSystem.openFileDialog();
-      
+
             const noFileSelected = filePaths.length === 0;
       
             if (noFileSelected) {
               throw new Error("No file selected");
             }
-            
+           
             const filePath = filePaths[0]
             
             // Request file reading from main process

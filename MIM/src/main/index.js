@@ -60,7 +60,7 @@ function createWindow() {
 }
 
 // Listens for the readFile event if invoked from renderer
-ipcMain.handle('file:read', async (filePath) => {
+ipcMain.handle('file:read', async (event, filePath) => {
   try {
     // Read the file as a buffer
     const fileData = await fs.readFile(filePath);
