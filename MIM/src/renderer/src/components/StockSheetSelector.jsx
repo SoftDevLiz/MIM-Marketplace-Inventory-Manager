@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import * as XLSX from 'xlsx'
 
+const fakeBarcode = "12345678";
+
 function StockSheetSelector() {
-    const [workbookData, setWorkbookData] = useState(null)
+    const [barcodeColumn, setBarcodeColumn] = useState(null)
 
     // imports excel file from file system
     const importFile = async () => {
@@ -26,8 +28,25 @@ function StockSheetSelector() {
             // SheetJS knows what type of data it is receiving in order
             // to parse it.
             const workbook = XLSX.read(response, { type: 'buffer' })
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            
+            const jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1})
 
-            console.log(workbook)
+            console.log(jsonData)
+
+            let barcodeIndex = ""
+
+            if (jsonData.length > 0) {
+              const headers = jsonData[0]
+              barcodeIndex = headers.indexOf("Barcode")
+            }
+
+            if (barcodeIndex !== -1) {
+              setBarcodeColumn(barcodeIndex)
+            } else {
+              alert('Barcode column not found')
+            }
 
         } catch (error) {
           console.error("Error importing file (renderer):", error);
@@ -41,9 +60,11 @@ function StockSheetSelector() {
             type="button"
             onClick={importFile}
         >Browse local files</button>
+        <h2>{barcodeColumn}</h2>
         </>
     )
 
 }
 
 export default StockSheetSelector
+
