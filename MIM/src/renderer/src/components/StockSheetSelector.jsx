@@ -36,17 +36,27 @@ function StockSheetSelector() {
             // controls the output format - an array of arrays. See SheetJS docs for more options.
             const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1})
 
-            console.log(jsonData)
-            
             /* TODO:
-                  1. Identify "barcode" column in the JSON
-                  2. Search for the fake barcode inside of the barcode column
+                  1. Identify QTY col
+                  2. +1 to QTY col
+               
+               QOL + Err considerations:
+                  1. Consider errors in looking for 'Barcode' (case sensitivity, non-existence, etc.)
+                  2. Consider splitting the file importing and the file processing into two different 
+                      try/catch blocks for easier error finding            
             */
 
             if (jsonData.length > 0) {
               const headers = jsonData[0]
-              const indexOfBarcode = headers.indexOf('barcode')
-              setBarcodeColIndex(indexOfBarcode)
+              const barcodeColIndex = headers.indexOf('Barcode')
+              setBarcodeColIndex(barcodeColIndex)
+            }
+
+            for (const row of jsonData.slice(1)) {
+              const cellValue = row[barcodeColIndex]
+              if (cellValue === fakeBarcode) {
+                console.log(cellValue)
+              }
             }
 
         } catch (error) {
