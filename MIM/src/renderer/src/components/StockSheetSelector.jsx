@@ -1,16 +1,19 @@
 import * as XLSX from 'xlsx'
 import Button from '@mui/material/Button'
 
-const fakeBarcode = 12345678;
+const fakeBarcode = 1234567;
 
 function StockSheetSelector() {
 
     // imports excel file from file system
     const importFile = async () => {
 
+      /** The column index of the "barcode" column */
       let barcodeColIndex = null
+
+      /** The column index of the "qty" column */
       let qtyColIndex = null
-      
+
         try {
             const filePaths = await window.fileSystem.openFileDialog();
 
@@ -40,15 +43,14 @@ function StockSheetSelector() {
             const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1})
 
             /* TODO:
-                  1. Identify QTY col
                   2. +1 to QTY col
                
                QOL + Err considerations:
-                  1. Consider errors in looking for 'Barcode' (case sensitivity, non-existence, etc.)
                   2. Consider splitting the file importing and the file processing into two different 
                       try/catch blocks for easier error finding            
             */
-
+          
+            // Identifies column indexes via the headers
             if (jsonData.length > 0) {
               const headers = jsonData[0]
               barcodeColIndex = headers.indexOf('Barcode')
@@ -57,12 +59,15 @@ function StockSheetSelector() {
               console.log(qtyColIndex)
             }
 
-           /* for (const row of jsonData.slice(1)) {
+            // Loops through rows of specified column and finds matching barcode
+            for (const row of jsonData.slice(1)) {
               const cellValue = row[barcodeColIndex]
               if (cellValue === fakeBarcode) {
                 console.log(cellValue)
+              } else {
+                console.log("Barcode not found")
               }
-            } */
+            }
 
         } catch (error) {
           console.error("Error importing/processing file (renderer):", error);
