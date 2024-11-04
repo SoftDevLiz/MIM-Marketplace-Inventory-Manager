@@ -1,7 +1,7 @@
 import * as XLSX from 'xlsx'
 import Button from '@mui/material/Button'
 
-const fakeBarcode = 1234567;
+const fakeBarcode = "barc3";
 
 function StockSheetSelector() {
 
@@ -41,14 +41,6 @@ function StockSheetSelector() {
             // Converts Excel sheet data into a JSON object. The header option
             // controls the output format - an array of arrays. See SheetJS docs for more options.
             const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1})
-
-            /* TODO:
-                  2. +1 to QTY col
-               
-               QOL + Err considerations:
-                  2. Consider splitting the file importing and the file processing into two different 
-                      try/catch blocks for easier error finding            
-            */
           
             // Identifies column indexes via the headers
             if (jsonData.length > 0) {
@@ -59,15 +51,27 @@ function StockSheetSelector() {
               console.log(qtyColIndex)
             }
 
-            // Loops through rows of specified column and finds matching barcode
+            // Loops through rows of specified column and finds matching barcode, then adds qty 1 of to
+            // the corresponding qty column cell
             for (const row of jsonData.slice(1)) {
-              const cellValue = row[barcodeColIndex]
-              if (cellValue === fakeBarcode) {
-                console.log(cellValue)
-              } else {
-                console.log("Barcode not found")
-              }
+              const barcodeCellValue = row[barcodeColIndex]
+              let correspondingQtyCell = row[qtyColIndex]
+              if (barcodeCellValue === fakeBarcode) {
+                correspondingQtyCell++;
+                console.log(correspondingQtyCell)
+              } 
             }
+
+            /**
+             * TODO: 
+             *      1. Figure out how the hell it's gonna keep looking for different barcodes 
+             *          and keep adding +1?
+             * 
+             * QOL: 
+             *      1. This component is getting a bit large. It's a lot for one little button to do. 
+             *          How can we break it up into other components and name things better to accurately reflect
+             *          their purpose? 
+             */
 
         } catch (error) {
           console.error("Error importing/processing file (renderer):", error);
