@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import * as XLSX from 'xlsx'
+import Button from '@mui/material/Button'
 
 const fakeBarcode = 12345678;
 
 function StockSheetSelector() {
     const [barcodeColIndex, setBarcodeColIndex] = useState(null)
+    const [qtyColIndex, setQtyColIndex] = useState(null)
 
     // imports excel file from file system
     const importFile = async () => {
@@ -48,16 +50,20 @@ function StockSheetSelector() {
 
             if (jsonData.length > 0) {
               const headers = jsonData[0]
-              const barcodeColIndex = headers.indexOf('Barcode')
-              setBarcodeColIndex(barcodeColIndex)
+              const barcodeIndex = headers.indexOf('Barcode')
+              setBarcodeColIndex(barcodeIndex)
+              console.log(barcodeColIndex)
+              const qtyIndex = headers.indexOf('QTY')
+              setQtyColIndex(qtyIndex)
+              console.log(qtyColIndex)
             }
 
-            for (const row of jsonData.slice(1)) {
+           /* for (const row of jsonData.slice(1)) {
               const cellValue = row[barcodeColIndex]
               if (cellValue === fakeBarcode) {
                 console.log(cellValue)
               }
-            }
+            } */
 
         } catch (error) {
           console.error("Error importing/processing file (renderer):", error);
@@ -67,10 +73,10 @@ function StockSheetSelector() {
     return (
         <>
         <h1>Select stock sheet</h1>
-        <button
+        <Button variant="contained"
             type="button"
             onClick={importFile}
-        >Browse local files</button>
+        >Browse local files</Button>
         </>
     )
 
