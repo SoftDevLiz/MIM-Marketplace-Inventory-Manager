@@ -1,15 +1,16 @@
-import { useState } from 'react'
 import * as XLSX from 'xlsx'
 import Button from '@mui/material/Button'
 
 const fakeBarcode = 12345678;
 
 function StockSheetSelector() {
-    const [barcodeColIndex, setBarcodeColIndex] = useState(null)
-    const [qtyColIndex, setQtyColIndex] = useState(null)
 
     // imports excel file from file system
     const importFile = async () => {
+
+      let barcodeColIndex = null
+      let qtyColIndex = null
+      
         try {
             const filePaths = await window.fileSystem.openFileDialog();
 
@@ -50,11 +51,9 @@ function StockSheetSelector() {
 
             if (jsonData.length > 0) {
               const headers = jsonData[0]
-              const barcodeIndex = headers.indexOf('Barcode')
-              setBarcodeColIndex(barcodeIndex)
+              barcodeColIndex = headers.indexOf('Barcode')
               console.log(barcodeColIndex)
-              const qtyIndex = headers.indexOf('QTY')
-              setQtyColIndex(qtyIndex)
+              qtyColIndex = headers.indexOf('QTY')
               console.log(qtyColIndex)
             }
 
